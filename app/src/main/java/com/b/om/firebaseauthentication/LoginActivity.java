@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int RC_SIGN_IN = 9001;
     private EditText inputEmail, inputPassword;
     private ProgressBar progressBar;
-    private Button btnSignup, btnLogin, btnReset, btnGoogle, btnFacebook;
+    private Button btnSignUp, btnLogin, btnReset, btnGoogle, btnFacebook;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private CallbackManager mCallbackManager;
@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-        btnSignup = (Button) findViewById(R.id.btn_signup);
+        btnSignUp = (Button) findViewById(R.id.btn_signup);
         btnLogin = (Button) findViewById(R.id.btn_login);
         btnReset = (Button) findViewById(R.id.btn_reset_password);
         btnGoogle = (Button) findViewById(R.id.btn_google_login);
@@ -91,27 +91,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user!=null){
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                     finish();
+                }else {
+
                 }
             }
         };
-        if (auth.getCurrentUser() != null){
+       /* if (auth.getCurrentUser() != null){
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
-        }
+        }*/
 
 
 
 
         btnGoogle.setOnClickListener(this);
         btnFacebook.setOnClickListener(this);
-        btnSignup.setOnClickListener(this);
+        btnSignUp.setOnClickListener(this);
         btnReset.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
 
+        // FaceBook
         mCallbackManager = CallbackManager.Factory.create();
-
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -131,8 +137,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    // FaceBook
+    private void handleFacebookAccessToken(AccessToken token){
 
-    // google
+
+        credential = FacebookAuthProvider.getCredential(token.getToken());
+        auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if (task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Authentication Success.", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("ERROR",e.getMessage());
+                Toast.makeText(LoginActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    // Google
     private void fireBaseAuthWithGoogle(GoogleSignInAccount account) {
 
         credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
@@ -154,36 +184,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    // facebook
-    private void handleFacebookAccessToken(AccessToken token){
-
-
-       credential = FacebookAuthProvider.getCredential(token.getToken());
-        auth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if (task.isSuccessful()){
-                    Toast.makeText(LoginActivity.this, "Authentication Success.", Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("ERROR",e.getMessage());
-                Toast.makeText(LoginActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // FaceBook
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
+        //Google
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
@@ -224,12 +233,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             googleSignIn();
         }
 
-        if (view.getId() == btnSignup.getId()){
+        if (view.getId() == btnSignUp.getId()){
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            finish();
         }
 
         if (view.getId() == btnReset.getId()){
             startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+            finish();
         }
 
         if (view.getId() == btnLogin.getId()){
