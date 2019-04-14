@@ -67,8 +67,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="0dip"
-            android:gravity="right|center"
             android:background="@null"
+            android:gravity="right|center"
             android:text="@string/btn_forgot_password"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent" />
@@ -80,31 +80,31 @@
             android:orientation="horizontal">
 
             <Button
-                android:layout_weight="1"
-                android:gravity="center"
                 android:id="@+id/btn_google_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:text="@string/btn_login_google"
-                android:textSize="10sp"
                 android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:drawableLeft="@mipmap/icon_google"
-                android:textColor="@color/colorPrimaryDark" />
+                android:gravity="center"
+                android:text="@string/btn_login_google"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="10sp" />
 
             <Button
-                android:layout_weight="1"
                 android:id="@+id/btn_facebook_login"
-                android:gravity="center"
-               android:layout_marginLeft="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:text="@string/btn_login_fb"
-                android:textSize="10sp"
+                android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
                 android:drawableLeft="@mipmap/icon_fb"
-                android:textColor="@color/colorPrimaryDark" />
+                android:gravity="center"
+                android:text="@string/btn_login_fb"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="10sp" />
 
         </LinearLayout>
 

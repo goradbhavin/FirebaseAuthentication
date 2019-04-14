@@ -100,7 +100,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(SignupActivity.this, "Authentication failed." + task.getException(),
+                            Toast.makeText(SignupActivity.this,getResources().getString(R.string.err_auth_failed) + task.getException(),
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);

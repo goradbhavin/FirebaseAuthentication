@@ -26,6 +26,7 @@
     <string name="required_email_registered">Enter your registered email id</string>
     <string name="required_email">Enter Your Email</string>
     <string name="required_password">Enter Your Password</string>
+    <string name="err_auth_failed">Authentication failed.</string>
 
     <string name="fb_app_secret">ffd02ea2f5eaf6e27a25fe1f49cd2ec5</string>
     <string name="facebook_app_id">2235293120092298</string>
